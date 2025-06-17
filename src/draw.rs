@@ -6,7 +6,6 @@ use bevy::{
         render_graph::{self, RenderGraphApp, RenderGraphContext, RenderLabel, ViewNodeRunner},
         render_resource::*,
         renderer::RenderContext,
-        texture::BevyDefault,
         view::{ViewTarget, ViewUniformOffset},
         RenderApp,
     },
@@ -79,6 +78,7 @@ impl FromWorld for DrawParticlePipeline {
                     mask: !0,
                     alpha_to_coverage_enabled: false,
                 },
+                zero_initialize_workgroup_memory: false,
             },
         );
 

@@ -1,7 +1,7 @@
 use bevy::{diagnostic::FrameTimeDiagnosticsPlugin, prelude::*};
-use bevy_egui::EguiPlugin;
-
-use camera::{camera_controls, CameraSettings, ParticleCamera};
+use bevy_egui::{egui, EguiContexts, EguiPlugin, EguiContextPass};
+use camera::{CameraSettings, ParticleCamera};
+use camera::camera_controls;
 use compute::ComputePlugin;
 use data::SimulationSettings;
 use draw::DrawPlugin;
@@ -19,20 +19,21 @@ fn main() {
         .add_event::<ParticleEvent>()
         .add_plugins((
             DefaultPlugins,
-            EguiPlugin,
+            EguiPlugin { enable_multipass_for_primary_context: true },
             // Used by ui to display the fps.
             FrameTimeDiagnosticsPlugin::default(),
             ComputePlugin,
             DrawPlugin,
         ))
+        .add_systems(EguiContextPass, ui::ui)
         .add_systems(Startup, setup)
-        .add_systems(Update, (ui::ui, camera_controls).chain())
+        .add_systems(Update, camera_controls)
         .run();
 }
 
 fn setup(mut commands: Commands) {
     commands.spawn((
-        Camera2dBundle::default(),
+        Camera2d,
         CameraSettings {
             pan_speed: 1.,
             scroll_speed: 1.,

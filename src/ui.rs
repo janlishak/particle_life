@@ -38,18 +38,18 @@ pub fn ui(
                     }
                 }
 
-                ui.with_layout(
-                    Layout::right_to_left(bevy_egui::egui::Align::Center),
-                    |ui| {
-                        if ui.button("Toggle Fullscreen").clicked() {
-                            window.mode = match window.mode {
-                                WindowMode::Windowed => WindowMode::BorderlessFullscreen,
-                                WindowMode::BorderlessFullscreen => WindowMode::Windowed,
-                                _ => WindowMode::Windowed,
-                            }
-                        }
-                    },
-                );
+                // ui.with_layout(
+                //     Layout::right_to_left(bevy_egui::egui::Align::Center),
+                //     |ui| {
+                //         if ui.button("Toggle Fullscreen").clicked() {
+                //             window.mode = match window.mode {
+                //                 WindowMode::Windowed => WindowMode::BorderlessFullscreen,
+                //                 WindowMode::BorderlessFullscreen => WindowMode::Windowed,
+                //                 _ => WindowMode::Windowed,
+                //             }
+                //         }
+                //     },
+                // );
             });
 
             let mut relative_speed = time.relative_speed();
@@ -211,33 +211,33 @@ pub fn ui(
                 ui.selectable_value(&mut settings.shape, Shape::Square, "Square");
             });
 
-            // settings.rgb
-            ui.checkbox(&mut settings.rgb, "RGB");
-            ui.add(egui::Slider::new(&mut settings.rgb_speed, 0.1..=10.).text("RGB speed"));
+            // // settings.rgb
+            // ui.checkbox(&mut settings.rgb, "RGB");
+            // ui.add(egui::Slider::new(&mut settings.rgb_speed, 0.1..=10.).text("RGB speed"));
 
-            if ui.button("Copy settings to clipboard").clicked() {
-                clipboard.set_contents(&settings.serialize());
-            };
+            // if ui.button("Copy settings to clipboard").clicked() {
+            //     clipboard.set_contents(&settings.serialize());
+            // };
 
-            if ui.button("Paste settings from clipboard").clicked() {
-                if let Some(s) = clipboard.get_contents() {
-                    if let Some(s) = SimulationSettings::deserialize(&s) {
-                        *settings = s;
-                        event_writer.send(ParticleEvent::RandomizeColors);
-                        event_writer.send(ParticleEvent::RandomizePositions);
-                    }
-                }
-            }
+            // if ui.button("Paste settings from clipboard").clicked() {
+            //     if let Some(s) = clipboard.get_contents() {
+            //         if let Some(s) = SimulationSettings::deserialize(&s) {
+            //             *settings = s;
+            //             event_writer.send(ParticleEvent::RandomizeColors);
+            //             event_writer.send(ParticleEvent::RandomizePositions);
+            //         }
+            //     }
+            // }
 
-            ui.add_space(10.);
+            // ui.add_space(10.);
 
-            let mut camera_settings = camera_settings.single_mut();
-            ui.label("Camera Settings");
-            ui.horizontal(|ui| {
-                ui.label("Pan Speed");
-                ui.add(egui::DragValue::new(&mut camera_settings.pan_speed).speed(0.01));
-                ui.label("Scroll Speed");
-                ui.add(egui::DragValue::new(&mut camera_settings.scroll_speed).speed(0.01));
-            });
+            // let mut camera_settings = camera_settings.single_mut();
+            // ui.label("Camera Settings");
+            // ui.horizontal(|ui| {
+            //     ui.label("Pan Speed");
+            //     ui.add(egui::DragValue::new(&mut camera_settings.pan_speed).speed(0.01));
+            //     ui.label("Scroll Speed");
+            //     ui.add(egui::DragValue::new(&mut camera_settings.scroll_speed).speed(0.01));
+            // });
         });
 }

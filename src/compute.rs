@@ -290,8 +290,8 @@ fn extract_particle_related_things(
     let matrix = ColorMatrix::new(&settings.matrix);
 
     let gpu_settings = GpuSettings {
-        time: time.elapsed_seconds(),
-        delta_time: time.delta_seconds(),
+        time: time.elapsed_secs(),
+        delta_time: time.delta_secs(),
         particle_count: settings.particle_count as u32,
         min_distance: settings.min_distance as f32,
         max_distance: settings.max_distance() as f32,
@@ -437,6 +437,7 @@ impl FromWorld for ParticlePipelines {
                     shader: shader.clone(),
                     shader_defs: vec![],
                     entry_point: label.into(),
+                    zero_initialize_workgroup_memory: false
                 },
             )
         };
